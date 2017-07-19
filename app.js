@@ -51,6 +51,9 @@ app.get('/api/:searchVal(*)', (req, res, next) => {
 
 app.get('/recent-searches', (req, res, next) => {
 	searchTerm.find({}, (err, data) => {
+		if (err){
+			res.json(err);
+		}
 		res.json(data);
 	});
 });
