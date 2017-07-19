@@ -13,6 +13,8 @@ app.use(cors());
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/searchTerms');
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/api/:searchVal(*)', (req, res, next) => {
 	const { searchVal } = req.params;
 	let { offset } = req.query;
@@ -45,21 +47,9 @@ app.get('/api/:searchVal(*)', (req, res, next) => {
 			res.json(bingData);
 		}
 	);
-
-	// const data = new searchTerm({
-	// 	searchVal,
-	// 	searchDate: new Date()
-	// });
-
-	// data.save(err => {
-	// 	if (err) {
-	// 		res.send('Error saving to database');
-	// 	}
-	// 	res.json(data);
-	// });
 });
 
-app.get('/recentSearches', (req, res, next) => {
+app.get('/recent-searches', (req, res, next) => {
 	searchTerm.find({}, (err, data) => {
 		res.json(data);
 	});
