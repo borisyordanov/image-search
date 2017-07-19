@@ -18,6 +18,19 @@ app.use(express.static(__dirname + '/public'));
 app.get('/api/:searchVal(*)', (req, res, next) => {
 	const { searchVal } = req.params;
 	let { offset } = req.query;
+
+	const data = new searchTerm({
+		searchVal,
+		searchDate: new Date()
+	});
+
+	data.save(err => {
+		if (err) {
+			res.send('Error saving to database');
+		}
+		res.json(data);
+	});
+	
 	let searchOffset = 0;
 
 	if (offset) {
@@ -47,12 +60,13 @@ app.get('/api/:searchVal(*)', (req, res, next) => {
 			res.json(bingData);
 		}
 	);
+
 });
 
 app.get('/recent-searches', (req, res, next) => {
 	searchTerm.find({}, (err, data) => {
 		if (err){
-			res.json(err);
+			return res.json(err);
 		}
 		res.json(data);
 	});
