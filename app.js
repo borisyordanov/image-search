@@ -28,7 +28,6 @@ app.get('/api/:searchVal(*)', (req, res, next) => {
 		if (err) {
 			res.send('Error saving to database');
 		}
-		res.json(data);
 	});
 	
 	let searchOffset = 0;
